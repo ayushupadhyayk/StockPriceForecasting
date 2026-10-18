@@ -13,8 +13,43 @@ it has never seen, and then forecasts the **next 30 trading days**.
 > **[StockPredictionWebApp](https://github.com/ayushupadhyayk/StockPredictionWebApp)**,
 > turns a similar model into an interactive Streamlit web app.
 
+## Research summary
+
+📄 **[Read the full research report (PDF)](research/report.pdf)**: *Forecasting Daily Stock
+Closing Prices with a Stacked LSTM Network: an empirical study on Tesla, Inc. (December 2017 –
+December 2022)*. It covers the datasets, how LSTMs work, the method, training, error analysis,
+limitations and conclusions.
+
+**Research questions**
+
+1. Can a stacked LSTM trained only on past closing prices follow a highly volatile stock on data it has never seen?
+2. How does it behave when forecasting several weeks ahead?
+3. What practical issues in the data and evaluation affect results like these?
+
+**Approach.** Five years of daily prices for Tesla, Apple and Alphabet (1,259 trading days each,
+4 Dec 2017 – 2 Dec 2022). Tesla was modelled with a 3-layer stacked LSTM (50,851 parameters)
+predicting the next day's close from the previous 100 days, using a chronological split:
+training to 5 Mar 2021 (818 days), testing from 8 Mar 2021 (441 days).
+
+**Key findings**
+
+| Finding | Evidence |
+|---|---|
+| The model learned the shape of the price series | Test error fell about 70% during training, to an RMSE of about **$72–75**, roughly **10% of the average test-period price** ($745) |
+| It generalised to unseen data | Training error ($68.68) and test error ($74.67) stayed close, with no strong overfitting |
+| It could not predict precise daily moves | The error is about **3.4 times a typical daily price move** ($21.67), and predictions lag the real price by about a day |
+| Long-range forecasts were unreliable | The recursive 30-day forecast rose **18.5%** (from $194.86 to $230.93) while Tesla's real price fell sharply |
+| Data quality mattered as much as the model | Unadjusted prices contain two Tesla stock splits that look like crashes of **77.5%** and **66.8%**; scaler leakage and a mis-scaled error metric could also mislead |
+
+**The crux.** An LSTM can learn the general behaviour of a stock's price from its history alone,
+but not exact future prices. Careful data preparation (split-adjusted prices, no leakage) and
+honest evaluation (correctly scaled errors, simple baselines) matter as much as the model itself.
+These lessons shaped my 7th semester Major Project-1, described in
+[How this led to my Major Project](#how-this-led-to-my-major-project).
+
 ## Contents
 
+- [Research summary](#research-summary)
 - [Results](#results)
 - [Quick start](#quick-start)
 - [Dataset](#dataset)
