@@ -9,7 +9,7 @@ Forecasting daily stock closing prices with a **stacked LSTM** (Long Short-Term 
 neural network. The model learns from five years of Tesla prices, is checked against data
 it has never seen, and then forecasts the **next 30 trading days**.
 
-> Part of my 7th semester project on stock prediction. The follow-up project,
+> The groundwork for my 7th semester **Major Project-1**. The follow-up,
 > **[StockPredictionWebApp](https://github.com/ayushupadhyayk/StockPredictionWebApp)**,
 > turns a similar model into an interactive Streamlit web app.
 
@@ -23,6 +23,7 @@ it has never seen, and then forecasts the **next 30 trading days**.
 - [Project structure](#project-structure)
 - [Known issues and limitations](#known-issues-and-limitations)
 - [Tech stack](#tech-stack)
+- [How this led to my Major Project](#how-this-led-to-my-major-project)
 
 ## Results
 
@@ -146,3 +147,32 @@ This project is for learning purposes only and is not financial advice.
 | Preprocessing | scikit-learn (`MinMaxScaler`) |
 | Model | TensorFlow / Keras (`Sequential`, `LSTM`, `Dense`) |
 | Visualisation | Matplotlib |
+
+## How this led to my Major Project
+
+I built this notebook first, in December 2022, to learn how LSTM networks handle stock prices
+before starting my 7th semester **Major Project-1**,
+**[StockPredictionWebApp](https://github.com/ayushupadhyayk/StockPredictionWebApp)**. That
+project, a Streamlit web app for stock trend prediction, is built directly on what I worked
+out here.
+
+**The pipeline came from here.** The web app uses the same core method:
+
+- predicting the next day's price from a **100-day window** of closing prices
+- scaling prices to 0–1 with `MinMaxScaler`
+- splitting the data **in time order**, so the model is always tested on later data than it learned from
+- a **stacked LSTM** in a Keras `Sequential` model, trained with Adam and mean squared error
+- judging the model by plotting its predictions against real prices
+
+**The limitations found here shaped the improvements.**
+
+| What I saw in this project | What the Major Project does instead |
+|---|---|
+| A small 3-layer model with no protection against overfitting | A deeper 4-layer LSTM with dropout after every layer |
+| Five years of data for a single stock | About 13 years of daily prices, with any ticker available in the app |
+| Long recursive forecasts, where each predicted day builds on earlier predictions and errors pile up | Day-by-day predictions checked against real prices |
+| The model retrained every time the notebook ran | Trained once, saved as `keras_model.h5` and loaded by the app |
+| Results visible only inside a notebook | An interactive web app with moving-average trend charts that anyone can use |
+
+In short, this project taught me the end-to-end process (data, scaling, windowing, model,
+evaluation), and StockPredictionWebApp turned it into a complete, usable application.
