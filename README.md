@@ -13,8 +13,15 @@ it has never seen, and then forecasts the **next 30 trading days**.
 > **[StockPredictionWebApp](https://github.com/ayushupadhyayk/StockPredictionWebApp)**,
 > turns a similar model into an interactive Streamlit web app.
 
+## Research report
+
+📄 **[Read the full research report (PDF)](research/report.pdf)**, also available as
+[Markdown](research/report.md). It covers the datasets and their ranges, how LSTMs work,
+the methodology, training, results and error analysis, limitations and conclusions.
+
 ## Contents
 
+- [Research report](#research-report)
 - [Results](#results)
 - [Quick start](#quick-start)
 - [Dataset](#dataset)
